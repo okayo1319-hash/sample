@@ -1,11 +1,35 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello world</title>
-  </head>
-  <body>
-    <h1>Hello world</h1>
-  </body>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="みどり訪問看護ステーション">
+  <title>みどり訪問看護ステーション</title>
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; background: #fff; }
+    body { margin: 0; background: #fff; }
+    .site { position: relative; width: 100%; min-width: 320px; max-width: 1440px; margin: 0 auto; }
+    .page-slice { display: block; width: 100%; height: auto; }
+    .hit-area { position: absolute; z-index: 1; display: block; }
+    .about { left: 29%; top: .63%; width: 10%; height: .42%; }
+    .service { left: 44%; top: .63%; width: 10%; height: .42%; }
+    .area { left: 59%; top: .63%; width: 9%; height: .42%; }
+    .news { left: 74%; top: .63%; width: 8%; height: .42%; }
+    .contact { left: 85%; top: .45%; width: 9%; height: .55%; }
+    .footer-contact { left: 35%; top: 87.2%; width: 30%; height: 2%; }
+  </style>
+</head>
+<body>
+  <main class="site">
+    <img class="page-slice" src="assets/figma-page-web-0.png" width="1440" height="4360" alt="みどり訪問看護ステーション">
+    <img class="page-slice" src="assets/figma-page-web-1.png" width="1440" height="4359" alt="">
+    <a class="hit-area about" href="#about" aria-label="私たちについて"></a>
+    <a class="hit-area service" href="#service" aria-label="サービス内容"></a>
+    <a class="hit-area area" href="#area" aria-label="対応エリア"></a>
+    <a class="hit-area news" href="#news" aria-label="お知らせ"></a>
+    <a class="hit-area contact" href="mailto:info@example.com" aria-label="お問い合わせ"></a>
+    <a class="hit-area footer-contact" href="tel:0001230000" aria-label="お電話でお問い合わせ"></a>
+  </main>
+</body>
 </html>
