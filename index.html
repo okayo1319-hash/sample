@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="みどり訪問看護ステーション">
   <title>みどり訪問看護ステーション</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%230b9448'/%3E%3Cpath d='M18 36c0-11 7-19 18-20 0 11-6 18-18 20Zm12 12V29h6v19Z' fill='white'/%3E%3C/svg%3E">
   <style>
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; background: #fff; }
@@ -12,6 +13,7 @@
     .site { position: relative; width: 100%; min-width: 320px; max-width: 1440px; margin: 0 auto; }
     .page-slice { display: block; width: 100%; height: auto; }
     .hit-area { position: absolute; z-index: 1; display: block; }
+    .anchor { position: absolute; left: 0; width: 1px; height: 1px; scroll-margin-top: 16px; }
     .about { left: 29%; top: .63%; width: 10%; height: .42%; }
     .service { left: 44%; top: .63%; width: 10%; height: .42%; }
     .area { left: 59%; top: .63%; width: 9%; height: .42%; }
@@ -22,6 +24,10 @@
 </head>
 <body>
   <main class="site">
+    <span id="about" class="anchor" style="top:9%"></span>
+    <span id="service" class="anchor" style="top:20%"></span>
+    <span id="area" class="anchor" style="top:57%"></span>
+    <span id="news" class="anchor" style="top:76%"></span>
     <img class="page-slice" src="assets/figma-page-web-0.png" width="1440" height="4360" alt="みどり訪問看護ステーション">
     <img class="page-slice" src="assets/figma-page-web-1.png" width="1440" height="4359" alt="">
     <a class="hit-area about" href="#about" aria-label="私たちについて"></a>
