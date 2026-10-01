@@ -9,10 +9,36 @@
   <style>
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; background: #fff; }
-    body { margin: 0; background: #fff; }
-    .site { position: relative; width: 100%; min-width: 320px; max-width: 1440px; margin: 0 auto; }
+    body { margin: 0; overflow-x: hidden; background: #fff; }
+    .site { position: relative; width: 100%; min-width: 320px; max-width: 1440px; margin: 0 auto; animation: page-in .7s ease-out both; }
     .page-slice { display: block; width: 100%; height: auto; }
-    .hit-area { position: absolute; z-index: 1; display: block; }
+    .hit-area {
+      position: absolute;
+      z-index: 2;
+      display: block;
+      border-radius: 999px;
+      outline: 0;
+      transition: transform .2s ease, background-color .2s ease, box-shadow .2s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .hit-area::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border: 2px solid rgba(11, 148, 72, .45);
+      border-radius: inherit;
+      opacity: 0;
+      transform: scale(.86);
+      pointer-events: none;
+    }
+    .hit-area:hover {
+      background: rgba(255, 255, 255, .16);
+      box-shadow: 0 10px 24px rgba(6, 92, 48, .16);
+      transform: translateY(-2px);
+    }
+    .hit-area:active { transform: translateY(0) scale(.97); }
+    .hit-area:focus-visible { box-shadow: 0 0 0 4px rgba(11, 148, 72, .28); }
+    .hit-area.is-pressed::after { animation: button-pulse .45s ease-out; }
     .anchor { position: absolute; left: 0; width: 1px; height: 1px; scroll-margin-top: 16px; }
     .about { left: 29%; top: .63%; width: 10%; height: .42%; }
     .service { left: 44%; top: .63%; width: 10%; height: .42%; }
@@ -20,6 +46,43 @@
     .news { left: 74%; top: .63%; width: 8%; height: .42%; }
     .contact { left: 85%; top: .45%; width: 9%; height: .55%; }
     .footer-contact { left: 35%; top: 87.2%; width: 30%; height: 2%; }
+    .scroll-top {
+      position: fixed;
+      right: clamp(16px, 3vw, 36px);
+      bottom: clamp(16px, 3vw, 36px);
+      z-index: 10;
+      display: grid;
+      width: 52px;
+      height: 52px;
+      place-items: center;
+      border: 0;
+      border-radius: 50%;
+      color: #fff;
+      background: #0b9448;
+      box-shadow: 0 10px 28px rgba(6, 92, 48, .28);
+      font: 700 24px/1 system-ui, sans-serif;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(16px) scale(.9);
+      pointer-events: none;
+      transition: opacity .25s ease, transform .25s ease, background-color .2s ease;
+    }
+    .scroll-top.is-visible { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+    .scroll-top:hover { background: #087d3d; transform: translateY(-3px) scale(1.03); }
+    .scroll-top:active { transform: translateY(0) scale(.95); }
+    .scroll-top:focus-visible { outline: 3px solid rgba(11, 148, 72, .35); outline-offset: 4px; }
+    @keyframes page-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+    @keyframes button-pulse { 0% { opacity: .8; transform: scale(.88); } 100% { opacity: 0; transform: scale(1.25); } }
+    @media (max-width: 640px) {
+      .scroll-top { width: 46px; height: 46px; font-size: 21px; }
+      .hit-area:hover { transform: none; box-shadow: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .site { animation: none; }
+      .hit-area, .scroll-top { transition: none; }
+      .hit-area.is-pressed::after { animation: none; }
+    }
   </style>
 </head>
 <body>
@@ -37,5 +100,41 @@
     <a class="hit-area contact" href="mailto:info@example.com" aria-label="お問い合わせ"></a>
     <a class="hit-area footer-contact" href="tel:0001230000" aria-label="お電話でお問い合わせ"></a>
   </main>
+  <button class="scroll-top" type="button" aria-label="ページの先頭へ戻る" title="ページの先頭へ戻る">↑</button>
+  <script>
+    (() => {
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const topButton = document.querySelector('.scroll-top');
+      const hitAreas = document.querySelectorAll('.hit-area');
+
+      hitAreas.forEach((button) => {
+        button.addEventListener('click', (event) => {
+          button.classList.remove('is-pressed');
+          void button.offsetWidth;
+          button.classList.add('is-pressed');
+          window.setTimeout(() => button.classList.remove('is-pressed'), 450);
+
+          const targetId = button.getAttribute('href');
+          if (!targetId || !targetId.startsWith('#')) return;
+          const target = document.querySelector(targetId);
+          if (!target) return;
+          event.preventDefault();
+          target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+          history.replaceState(null, '', targetId);
+        });
+      });
+
+      const updateTopButton = () => {
+        const visible = window.scrollY > Math.min(700, window.innerHeight * .75);
+        topButton.classList.toggle('is-visible', visible);
+      };
+
+      topButton.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+      });
+      window.addEventListener('scroll', updateTopButton, { passive: true });
+      updateTopButton();
+    })();
+  </script>
 </body>
 </html>
